@@ -1,14 +1,17 @@
 const Router = require('koa-router')()
 const BodyParser = require('koa-bodyparser')
 const path = require("path")
-
 const miInit = require('./mi-init')
 const miRender = require('./mi-render')
 const miRouter = require('./mi-router')
+const miError = require('./mi-http-error')
 const miStaticFiles = require('./mi-static-files')
 const isProduction = process.env.NODE_ENV === 'production'
 
 module.exports = (app) => {
+  app.use(miError({
+    errorPageFolder: path.resolve(__dirname, '../errorPage') // 自定义错误文件夹
+  }));
   /**
   * 记录URL以及页面执行时间
   */
