@@ -3,23 +3,6 @@ const Path = require('path');
 const consolidate = require('consolidate');
 
 /**
- * fs直接读取文件(暂不使用)
- * 
- * @param {any} path 
- * @returns 
- */
-const getTemplate = (path) => {
-    return new Promise((resolve, reject) => {
-        fs.readFile(path, {
-            encoding: 'utf-8'
-        }, (err, data) => {
-            if (err) reject(err)
-            resolve(data);
-        });
-    });
-}
-
-/**
  * 模块化导出
  * 
  * @param {any} opts 
@@ -71,9 +54,7 @@ module.exports = (opts) => {
                 ctx.status = status;
                 ctx.body = data;
             } catch (e) {
-                console.log('错误页读取失败');
-                ctx.status = status;
-                ctx.body = message;
+                ctx.throw(500, '错误页渲染失败');
             }
         }
     }
